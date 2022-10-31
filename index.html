@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TO DO LIST</title>
+    <link rel="stylesheet" href="index.css">
+
+</head>
+
+<body>
+
+<div class="title">
+    <h1 id="tieude"> TO DO LIST </h1>
+    <div id="ip">
+        <input type="text" id="add" placeholder="Nhập ở đây">
+        <button onclick="themCongViec()" id="button1">Thêm</button>
+    </div>
+
+    <h2>Danh sách công việc</h2>
+</div>
+<div class="table1">
+    <table id="banghienthi" border="1" width="800px"></table>
+    <br>
+    <br>
+</div>
+<div class="table2">
+    <table id="banghoanthanh" border="1" width="800px"></table>
+</div>
+
+
+<script>
+    let danhSachCongViec = ['Đi chợ', 'Đá bóng', 'Thể dục', 'Học bài']
+    hienThiManHinh()
+
+    //Hiển thị bảng ở trên
+    function hienThiManHinh() {
+        let bang1 = ' <tr> ' + 'Tổng số công việc cần làm :' + ' ' + danhSachCongViec.length + ' </tr>\n' +
+            '    <tr><td>VIỆC CẦN LÀM</td>\n' +
+            '        <td>TÙY CHỌN</td>\n' +
+            '    </tr>'
+        for (let i = 0; i < danhSachCongViec.length; i++) {
+            bang1 += '<tr><td>' + danhSachCongViec[i] + ' </td>' +
+                '<td><button onclick="suaCongViec(' + i + ')">Sửa</button>' +
+                '<button onclick="xoaCongViec(' + i + ')" >Xóa</button>' +
+                '<button onclick="hoanThanh(' + i + ')"> Hoàn thành</button></td></tr>';
+
+        }
+        document.getElementById('banghienthi').innerHTML = bang1
+
+    }
+
+    //Thêm công việc vào mảng
+    function themCongViec() {
+        let tenCongViec = document.getElementById("add").value
+        // Nếu ko nhập trả lại mảng ban đầu hiện thông báo mời nhập
+        if (tenCongViec === '') {
+            hienThiManHinh();
+            alert('Vui lòng nhập công việc')
+        } else {
+            danhSachCongViec.push(tenCongViec)
+        }
+        hienThiManHinh()
+        // Nhập trả lại rỗng ô input
+        document.getElementById('add').value = ''
+    }
+
+    //Xóa công việc ra khỏi mảng
+    //vitri = i
+    function xoaCongViec(vitri) {
+        danhSachCongViec.splice(vitri, 1)
+        hienThiManHinh()
+    }
+
+    // Sửa công việc
+    function suaCongViec(vitri) {
+        let congViecKhac = prompt(" Nhập công việc mới ")
+        danhSachCongViec[vitri] = congViecKhac
+
+        hienThiManHinh()
+    }
+
+</script>
+<script>
+    let danhSachHoanThanh = []
+
+    //Hiển thị bảng hoàn thành ở dưới
+    function hienThiHoanThanh() {
+        let bang2 = '<tr>\n' +
+
+            '    <td>' + 'TỔNG SỐ CÔNG VIỆC HOÀN THÀNH: ' + ' ' + danhSachHoanThanh.length + '</td>\n'+
+            '        <td>'+'TÙY CHỌN'+'</td>'+
+            '  </tr>'
+        for (let i = 0; i < danhSachHoanThanh.length; i++) {
+            bang2 += '<tr>' +
+                '<td>' + danhSachHoanThanh[i] + ' </td>' +
+                '<td>'+'<button onclick="xoaHoanThanh(' + i + ')" >Thực hiện lại</button>'+'</td>'+
+                '</tr>'
+        }
+        document.getElementById('banghoanthanh').innerHTML = bang2
+    }
+
+    // bấm hoàn thành xóa và đưa xuống dưới
+    function hoanThanh(vitri) {
+        let a = danhSachCongViec.splice(vitri, 1);
+        danhSachHoanThanh.push(a)
+        if (danhSachCongViec.length === 0) {
+            alert("Chúc mừng bạn đã hoàn thành tất cả công việc")
+        }
+        hienThiManHinh()
+        hienThiHoanThanh()
+    }
+    // xóa công việc hoàn thành khi sai đẩy lên bảng thực hiện
+    function xoaHoanThanh(vitri) {
+      let a =  danhSachHoanThanh.splice(vitri, 1);
+        danhSachCongViec.push(a)
+        hienThiHoanThanh()
+        hienThiManHinh()
+    }
+
+
+</script>
+
+</body>
+
+</html>
